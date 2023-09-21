@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vprodb
+  labels:
+    app: vprodb
+spec:
+  selector:
+    matchLabels:
+      app: vprodb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app:vprodb
+    spec:
+      containers:
+        - name: vprodb
+          image: prakashbabu9327/memsql-vprofile
+          volumeMounts:
+            - name: vprod-volume
+              mountPath: /var/lib/mysql
+          ports:
+            - containerPort: 3306
+              name: vprodb-port
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vprofile-app-secret
+                  key: mysql-jdbc-password
+      nodeSelector:
+        region-lbl: us-east-1a
+      volumes:
+        - name: vprodb-volume
+          awsElasticBlockStore:
+            fsType: ext4
+            volumeID: vol-0edc1cc179bc9da3c
+      initContainers:
+        - name: busybox-deletefiles
+          image: busybox:latest
+          args: ["rm","-rf","/var/lib/mysql/lost+found"]
