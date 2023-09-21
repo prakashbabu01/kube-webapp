@@ -12,13 +12,13 @@ spec:
   template:
     metadata:
       labels:
-        app:vprodb
+        app: vprodb
     spec:
       containers:
         - name: vprodb
           image: prakashbabu9327/memsql-vprofile
           volumeMounts:
-            - name: vprod-volume
+            - name: vprodb-volume
               mountPath: /var/lib/mysql
           ports:
             - containerPort: 3306
@@ -29,8 +29,10 @@ spec:
                 secretKeyRef:
                   name: vprofile-app-secret
                   key: mysql-jdbc-password
+            - name: MYSQL_ROOT_PASSWORD
+              value: accounts
       nodeSelector:
-        region-lbl: us-east-1a
+        region-lbl: us-east-1d
       volumes:
         - name: vprodb-volume
           awsElasticBlockStore:
