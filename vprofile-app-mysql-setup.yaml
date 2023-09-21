@@ -29,7 +29,7 @@ spec:
                 secretKeyRef:
                   name: vprofile-app-secret
                   key: mysql-jdbc-password
-            - name: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
               value: accounts
       nodeSelector:
         region-lbl: us-east-1d
