@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: vprodb
-          image: prakashbabu9327/memsql-vprofile
+          image: prakashbabu9327/memsql-vprofile:v1
           volumeMounts:
             - name: vprodb-volume
               mountPath: /var/lib/mysql
